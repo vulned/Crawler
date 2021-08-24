@@ -30,3 +30,29 @@
 受理公示：湟源县2020年农村饮水管网更新改造工程等3个项目2020-12-30
 
 urlretrieve
+
+
+
+# 基础
+
+## 网页请求
+
+### 参见：urllib_learning.py
+
+抓取网页代码
+
+## 网页解析（Parse）
+
+### 参见：urlencode.py
+
+解析传参编码
+
+## Cookies
+
+### 参见：requestsLib.py
+
+### POST和GET方法
+
+POST方法和GET方法是前端将表单中的内容提交到服务器端的方法，为了获得服务器的Response。
+
+GET在URL中传参，POST将参数放入HTTP请求报文。

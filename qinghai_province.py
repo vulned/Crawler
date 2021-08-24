@@ -14,7 +14,9 @@ def get_pdf_urls(url):
     # 使用xPath语法
     ul = html.xpath('//li')
     # print(ul[0])
-    # <li class=""><a href="./202103/t20210330_113720.html" target="_blank" title="受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目" class="xh-highlight">受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目</a><b class="">2021-03-30</b></li>
+    # <li class=""><a href="./202103/t20210330_113720.html" target="_blank" title=
+    # "受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目" class="xh-highlight">
+    # 受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目</a><b class="">2021-03-30</b></li>
     
     for li in ul:
         # print(li.xpath('./a/@href'))
@@ -41,9 +43,13 @@ for detail_url in url_list:
     html = etree.HTML(text)
     download_url = html.xpath('//p[@class="insertfileTag"]/a/@href')
     file_name = html.xpath('//p[@class="insertfileTag"]/a/@title')
-    # print(download_url)
-    # print(download_url[0])
-    # print(file_name)
+    counter = 0
+    for q in download_url:
+        counter += 1
+        print('------ ' + str(counter) + ' ------')
+        print(download_url)
+        print(download_url[0])
+        print(file_name)
     try:
     # ./P020210330399029703556.pdf
     # http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/202103/P020210330399029703556.pdf
@@ -56,7 +62,7 @@ for detail_url in url_list:
             # print(type(pdf_name))
             if str(file_name).find('光伏') != -1:
                 print(str(file_name).find('光伏'))
-                print(pdf_name)
+                # print(pdf_name)
                 # request.urlretrieve(download_url, pdf_name)
     except Exception as e:
             print('无附件')

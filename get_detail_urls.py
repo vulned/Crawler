@@ -2,11 +2,12 @@ import requests
 from lxml import etree
 
 def get_detail_urls(url):
-    url = 'http://shj.xining.gov.cn/zwgk/xxgkzn/'
-    url2 = 'http://shj.xining.gov.cn/images/jquery.SuperSlide.2.1.1.js'
-    url3 = 'http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/list.html'
-    # 案例一
-    # resp = requests.get(url)
+    print('1')
+    url01 = 'http://shj.xining.gov.cn/zwgk/xxgkzn/'
+    url02 = 'http://shj.xining.gov.cn/images/jquery.SuperSlide.2.1.1.js'
+    url03 = 'http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/list.html'
+
+    # resp = requests.get(url01)
     # print(resp.cookies)
     # print(resp.cookies.get_dict)
 
@@ -14,7 +15,7 @@ def get_detail_urls(url):
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.63'
     }
 
-    resp = requests.get(url3)
+    resp = requests.get(url03)
     # print(resp.content.decode())
     # print(resp.content.decode('utf-8'))
 
