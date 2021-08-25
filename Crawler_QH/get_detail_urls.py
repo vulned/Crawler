@@ -2,7 +2,6 @@ import requests
 from lxml import etree
 
 def get_detail_urls(url):
-    print('1')
     url01 = 'http://shj.xining.gov.cn/zwgk/xxgkzn/'
     url02 = 'http://shj.xining.gov.cn/images/jquery.SuperSlide.2.1.1.js'
     url03 = 'http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/list.html'
