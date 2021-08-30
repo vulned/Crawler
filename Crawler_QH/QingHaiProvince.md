@@ -1,3 +1,11 @@
+# 下载中遇到的问题
+
+## pdf文件名
+
+<p class="insertfileTag" style="line-height: 16px; font-size: 19px; text-align: center; font-family: 宋体, SimSun;">
+    <img needdownload="false" style="vertical-align: middle; margin-right: 2px; font-family: 宋体, SimSun; font-size: 19px;" src="/govapp/lib/ueditor_demo/ueditor2/dialogs/attachment/fileTypeImages/icon_pdf.gif">
+    <a style="font-size: 19px; color: rgb(0, 102, 204); font-family: 宋体, SimSun;" appendix="true" otheroperation="false" href="./P020210830423761510808.pdf" title="乳制品前处理改造升级项目环评报告表.pdf" oldsrc="/protect/P0202108/P020210830/P020210830423761510808.pdf">乳制品前处理改造升级项目环评报告表.pdf</a></p>
+
 如何找到？
 
 > list.html
@@ -29,9 +37,15 @@
 受理公示：西宁市城南污水处理厂提质改造工程2020-12-31
 受理公示：湟源县2020年农村饮水管网更新改造工程等3个项目2020-12-30
 
+### 重定向
+
 urlretrieve
 
+### 获取倒数第二个内容
 
+result = html.xpath('//li[last()-1]/a')
+
+result[0].text
 
 # 基础
 

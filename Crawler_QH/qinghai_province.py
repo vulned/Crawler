@@ -1,6 +1,7 @@
 import requests
 from urllib import request
 from lxml import etree
+from bs4 import BeautifulSoup
 
 detail_urls = []
 def get_pdf_urls(url):
@@ -13,7 +14,7 @@ def get_pdf_urls(url):
     html = etree.HTML(text)
     # 使用xPath语法
     ul = html.xpath('//li')
-    # print(ul[0])
+    print(ul[0])
     # <li class=""><a href="./202103/t20210330_113720.html" target="_blank" title=
     # "受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目" class="xh-highlight">
     # 受理公示：年产5万千米中低压、防火、铝合金、光伏电线电缆项目</a><b class="">2021-03-30</b></li>
@@ -31,6 +32,7 @@ def get_pdf_urls(url):
 
 # 正片开始
 counter = 1
+counter_total = 0
 page = 0
 
 url = 'http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/list.html'
@@ -44,14 +46,28 @@ for detl_url in url_list:
     # 取日期：/202103
     date_url = detl_url[47:54]
     resp = requests.get(detl_url)
+    # ---BeautifulSoup 实现---
+    # soup = BeautifulSoup(request.urlopen(detl_url), 'lxml')
+    # print(soup.prettify())
+    # print(soup.span)
+    # spans = soup.find_all('span')
+    # for spa in spans:
+    #     print(spa)
     # print(resp)
     text = resp.content.decode()
     html = etree.HTML(text)
     # print(etree.tostring(html).decode())
     download_url = html.xpath('//p[@class="insertfileTag"]/a/@href')
+    if download_url == [] or download_url == False:
+        download_url = html.xpath("//p//a[contains(@style,'color: rgb(0, 102, 204')]/@href")
+        # //div/@class="zwxxgk_ndbgwz"
     # print(download_url)
     # ['./P020210825363252401366.pdf']
     file_name = html.xpath('//p[@class="insertfileTag"]/a/@title')
+    if file_name == [] or file_name == False:
+        file_name = html.xpath('//p//a/@title')
+    print(file_name)
+    # ['./P020210825363252401366.pdf']
     title = html.xpath('//h1')
     print(title[0].text)
     # print(file_name)
@@ -64,39 +80,37 @@ for detl_url in url_list:
     try:
         for pdfs in download_url:
             download_url = 'http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm' + date_url + pdfs[1:]
-            # print(download_url)
+            print('PDF下载地址：' + download_url)
             # http://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/202108/P020210825363252401366.pdf
         for pdf_name in file_name:
-            # print(pdf_name)
+            print('PDF名称：' + pdf_name)
             # print(type(pdf_name))
-            if str(file_name).find('宝赢') != -1:
+            if str(pdf_name).find('能源') != -1:
+                request.urlretrieve(download_url, pdf_name)
+                print('下载' + pdf_name + '成功！')
+            elif str(pdf_name).find('光伏') != -1:
+                # 测试
                 # print(str(file_name).find('光伏'))
                 # print(pdf_name)
                 request.urlretrieve(download_url, pdf_name)
                 print('下载' + pdf_name + '成功！')
-            elif str(file_name).find('太阳能') != -1:
+            elif str(pdf_name).find('太阳能') != -1:
                 request.urlretrieve(download_url, pdf_name)
                 print('下载' + pdf_name + '成功！')
-            elif str(file_name).find('风力') != -1:
+            elif str(pdf_name).find('风力') != -1:
                 request.urlretrieve(download_url, pdf_name)
                 print('下载' + pdf_name + '成功！')
-            elif str(file_name).find('电力') != -1:
-                request.urlretrieve(download_url, pdf_name)
-                print('下载' + pdf_name + '成功！')
-            # 用于测试，因为项目比较多
-            elif str(file_name).find('光伏') != -1:
-                request.urlretrieve(download_url, pdf_name)
-                print('下载' + pdf_name + '成功！')
-            elif str(file_name).find('瓦楞') != -1:
+            elif str(pdf_name).find('电力') != -1:
                 request.urlretrieve(download_url, pdf_name)
                 print('下载' + pdf_name + '成功！')
             else:
-                print('Duck不必')
+                print('附件内容与新能源不相关！')
     except Exception as e:
-            print('无附件')
+            print("发生错误，附件链接损坏！")
     # 记数：li个数
     counter += 1
-    print('------ ' + str(counter) + ' ------')
+    counter_total += 1
+    print('- ' * 6  + str(counter) + ' -' * 6)
     # 翻页
     # 第2页 - https://shj.xining.gov.cn/zwgk/xxgkml/xzsp/yslxm/list_1.html
     if counter > 20:
@@ -108,3 +122,4 @@ for detl_url in url_list:
         print(next_url)
         url = next_url
         url_list = get_pdf_urls(url)
+print('合计扫描条目数：' + str(counter_total))
