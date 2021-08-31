@@ -68,8 +68,8 @@ for detl_url in url_list:
         file_name = html.xpath('//p//a/@title')
     print(file_name)
     # ['./P020210825363252401366.pdf']
-    title = html.xpath('//h1')
-    print(title[0].text)
+    # title = html.xpath('//h1')
+    # print(title[0].text)
     # print(file_name)
     # ['西宁市南川河水生态文明建设工程（生态环境综合治理）环境影响报告表.pdf']
 
